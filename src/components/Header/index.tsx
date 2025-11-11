@@ -88,18 +88,18 @@ const Header = () => {
               <Image
                 src="/images/logo/svgviewer-output.svg"
                 alt="logo"
-                width={160}
-                height={44}
+                width={200}
+                height={55}
                 className="dark:hidden"
-                style={{ width: '160px', height: '44px' }}
+                style={{ width: '200px', height: '55px' }}
               />
               <Image
                 src="/images/logo/svgviewer-output.svg"
                 alt="logo"
-                width={160}
-                height={44}
+                width={200}
+                height={55}
                 className="hidden dark:block"
-                style={{ width: '160px', height: '44px' }}
+                style={{ width: '200px', height: '55px' }}
               />
             </Link>
           </div>
