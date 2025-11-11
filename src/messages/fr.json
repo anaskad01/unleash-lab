@@ -25,6 +25,20 @@
     "intro": "Chez Unleash Lab, l'humain est au cœur de notre méthodologie. Nous combinons Business Analysis, analyse de valeur et psychologie pour vous offrir un accompagnement pertinent et approfondi."
   },
 
+  "valuesSection": {
+    "title": "Nos Valeurs",
+    "values": {
+      "integrity": "Intégrité",
+      "integrityDesc": "Nous agissons avec honnêteté, éthique et transparence.",
+      "excellence": "Excellence",
+      "excellenceDesc": "Nous visons l'excellence dans tout ce que nous faisons.",
+      "humanism": "Humanisme",
+      "humanismDesc": "Nous plaçons l'humain au centre de notre approche.",
+      "innovation": "Innovation",
+      "innovationDesc": "Nous cherchons constamment à innover pour créer de la valeur."
+    }
+  },
+
   "features": {
     "understand": {
       "title": "Vous comprendre",

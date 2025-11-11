@@ -54,7 +54,7 @@ const SimpleAbout: React.FC = () => {
   };
 
   return (
-    <section className="relative py-20 md:py-28 bg-gradient-to-br from-gray-50 to-white dark:from-zinc-900 dark:to-zinc-800 overflow-hidden">
+    <section className="relative py-20 md:py-28 bg-white dark:bg-black overflow-hidden">
       {/* Decorative background shapes (subtle) */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-[-80px] top-[-80px] h-[380px] w-[380px] rounded-full bg-primary/10 blur-3xl opacity-30 dark:opacity-10" />
