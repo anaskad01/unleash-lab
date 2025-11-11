@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Testimonials from "@/components/Testimonials"; 
+// import Testimonials from "@/components/Testimonials"; 
 import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Pro Pulse | Coaching et Mentorat à la Demande",
@@ -34,8 +34,8 @@ const BlogDetailsPage = () => {
             <div className="absolute inset-0 bg-[#48937E]/50 mix-blend-multiply"></div>
           </div>
         </div>
-    {}
-        {}
+        {/* Avis clients - À activer quand les vrais avis seront disponibles */}
+        {/* <Testimonials /> */}
       </div>
     </section>
   );

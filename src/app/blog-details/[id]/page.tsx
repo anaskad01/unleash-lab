@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Testimonials from "@/components/Testimonials";
+// import Testimonials from "@/components/Testimonials";
 import blogData from "@/components/Blog/blogData";
 import BlogDetailsClient from "@/components/Blog/BlogDetailsClient";
 import { Metadata } from "next";
@@ -40,11 +40,11 @@ const BlogDetailsDynamicPage = async ({ params }: Props) => {
         {}
         <BlogDetailsClient id={id} />
         {}
-        {blog.id === 3 && (
+        {/* Avis clients Pro Pulse - À activer quand les vrais avis seront disponibles */}
+        {/* {blog.id === 3 && (
           <div className="mt-20">
-            <Testimonials />
           </div>
-        )}
+        )} */}
       </div>
     </section>
   );

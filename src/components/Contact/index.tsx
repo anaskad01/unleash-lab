@@ -120,6 +120,7 @@ const Contact = () => {
   const { messages } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const formatText = (text: string) => {
     // Convertit **texte** en <strong>texte</strong>
@@ -131,10 +132,61 @@ const Contact = () => {
     return formatted;
   };
 
+  // Fonction de validation des champs
+  const validateForm = (data: any): Record<string, string> => {
+    const newErrors: Record<string, string> = {};
+
+    // Validation du prénom (obligatoire)
+    if (!data.firstName?.trim()) {
+      newErrors.firstName = 'Le prénom est obligatoire';
+    } else if (data.firstName.trim().length < 2) {
+      newErrors.firstName = 'Le prénom doit contenir au moins 2 caractères';
+    }
+
+    // Validation du nom (obligatoire)
+    if (!data.lastName?.trim()) {
+      newErrors.lastName = 'Le nom est obligatoire';
+    }
+
+    // Validation de l'email (obligatoire + format)
+    if (!data.email?.trim()) {
+      newErrors.email = 'L\'email est obligatoire';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      newErrors.email = 'Format d\'email invalide';
+    }
+
+    // Validation du téléphone (obligatoire + format numérique)
+    if (!data.phone?.trim()) {
+      newErrors.phone = 'Le téléphone est obligatoire';
+    } else {
+      // Nettoyer le numéro (enlever espaces, tirets, parenthèses)
+      const cleanPhone = data.phone.replace(/[\s\-\(\)\+]/g, '');
+      // Vérifier que c'est uniquement des chiffres et au moins 8 chiffres
+      if (!/^\d{8,}$/.test(cleanPhone)) {
+        newErrors.phone = 'Le téléphone doit contenir uniquement des chiffres (minimum 8)';
+      }
+    }
+
+    // Validation du message (obligatoire + longueur minimum)
+    if (!data.message?.trim()) {
+      newErrors.message = 'Le message est obligatoire';
+    } else if (data.message.trim().length < 10) {
+      newErrors.message = 'Le message doit contenir au moins 10 caractères';
+    }
+
+    // Validation de l'entreprise (optionnel mais longueur si renseigné)
+    if (data.company?.trim() && data.company.trim().length < 2) {
+      newErrors.company = 'Le nom de l\'entreprise doit contenir au moins 2 caractères';
+    }
+
+    return newErrors;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setErrors({}); // Réinitialiser les erreurs
 
     const formData = new FormData(e.currentTarget);
     const data = {
@@ -146,6 +198,22 @@ const Contact = () => {
       phone: formData.get('phone') as string,
       countryCode: formData.get('countryCode') as string,
     };
+
+    // Validation des champs
+    const formErrors = validateForm(data);
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      setIsSubmitting(false);
+      
+      // Faire défiler jusqu'au premier champ avec erreur
+      const firstErrorField = Object.keys(formErrors)[0];
+      const element = document.getElementById(firstErrorField);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.focus();
+      }
+      return;
+    }
 
     try {
       const response = await fetch('/api/contact', {
@@ -159,11 +227,15 @@ const Contact = () => {
       if (response.ok) {
         setSubmitStatus('success');
         (e.target as HTMLFormElement).reset();
+        setErrors({}); // Nettoyer les erreurs en cas de succès
       } else {
+        const errorData = await response.json();
         setSubmitStatus('error');
+        console.error('Erreur API:', errorData);
       }
     } catch (error) {
       setSubmitStatus('error');
+      console.error('Erreur réseau:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -205,29 +277,113 @@ const Contact = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                      <label htmlFor="firstName" className="mb-3 block text-sm font-medium text-dark dark:text-white">{messages.contact.form.firstName}</label>
-                      <input type="text" id="firstName" name="firstName" placeholder={messages.contact.form.firstNamePlaceholder} className="w-full rounded-lg border border-stroke bg-transparent px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-zinc-800 dark:text-body-color-dark dark:shadow-two dark:focus:border-primary" />
+                      <label htmlFor="firstName" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+                        {messages.contact.form.firstName} <span className="text-red-500">*</span>
+                      </label>
+                      <input 
+                        type="text" 
+                        id="firstName" 
+                        name="firstName" 
+                        placeholder={messages.contact.form.firstNamePlaceholder} 
+                        className={`w-full rounded-lg border bg-transparent px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:bg-zinc-800 dark:text-body-color-dark dark:shadow-two dark:focus:border-primary ${
+                          errors.firstName 
+                            ? 'border-red-500 dark:border-red-500 focus:border-red-500 dark:focus:border-red-500' 
+                            : 'border-stroke dark:border-transparent'
+                        }`}
+                      />
+                      {errors.firstName && (
+                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.firstName}</p>
+                      )}
                     </div>
                     <div>
-                      <label htmlFor="lastName" className="mb-3 block text-sm font-medium text-dark dark:text-white">{messages.contact.form.lastName}</label>
-                      <input type="text" id="lastName" name="lastName" placeholder={messages.contact.form.lastNamePlaceholder} className="w-full rounded-lg border border-stroke bg-transparent px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-zinc-800 dark:text-body-color-dark dark:shadow-two dark:focus:border-primary" />
+                      <label htmlFor="lastName" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+                        {messages.contact.form.lastName} <span className="text-red-500">*</span>
+                      </label>
+                      <input 
+                        type="text" 
+                        id="lastName" 
+                        name="lastName" 
+                        placeholder={messages.contact.form.lastNamePlaceholder} 
+                        className={`w-full rounded-lg border bg-transparent px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:bg-zinc-800 dark:text-body-color-dark dark:shadow-two dark:focus:border-primary ${
+                          errors.lastName 
+                            ? 'border-red-500 dark:border-red-500 focus:border-red-500 dark:focus:border-red-500' 
+                            : 'border-stroke dark:border-transparent'
+                        }`}
+                      />
+                      {errors.lastName && (
+                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.lastName}</p>
+                      )}
                     </div>
                     <div>
-                      <label htmlFor="email" className="mb-3 block text-sm font-medium text-dark dark:text-white">{messages.contact.form.email}</label>
-                      <input type="email" id="email" name="email" placeholder={messages.contact.form.emailPlaceholder} className="w-full rounded-lg border border-stroke bg-transparent px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-zinc-800 dark:text-body-color-dark dark:shadow-two dark:focus:border-primary" />
+                      <label htmlFor="email" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+                        {messages.contact.form.email} <span className="text-red-500">*</span>
+                      </label>
+                      <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder={messages.contact.form.emailPlaceholder} 
+                        className={`w-full rounded-lg border bg-transparent px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:bg-zinc-800 dark:text-body-color-dark dark:shadow-two dark:focus:border-primary ${
+                          errors.email 
+                            ? 'border-red-500 dark:border-red-500 focus:border-red-500 dark:focus:border-red-500' 
+                            : 'border-stroke dark:border-transparent'
+                        }`}
+                      />
+                      {errors.email && (
+                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email}</p>
+                      )}
                     </div>
                     <div>
-                      <label htmlFor="phone" className="mb-3 block text-sm font-medium text-dark dark:text-white">{messages.contact.form.phone}</label>
-                      <PhoneInput />
+                      <label htmlFor="phone" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+                        {messages.contact.form.phone} <span className="text-red-500">*</span>
+                      </label>
+                      <div className={`${
+                        errors.phone 
+                          ? 'border-red-500 dark:border-red-500' 
+                          : 'border-stroke dark:border-transparent'
+                      }`}>
+                        <PhoneInput />
+                      </div>
+                      {errors.phone && (
+                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.phone}</p>
+                      )}
                     </div>
                   </div>
                   <div className="mb-6">
                     <label htmlFor="company" className="mb-3 block text-sm font-medium text-dark dark:text-white">{messages.contact.form.company}</label>
-                    <input type="text" id="company" name="company" placeholder={messages.contact.form.companyPlaceholder} className="w-full rounded-lg border border-stroke bg-transparent px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-zinc-800 dark:text-body-color-dark dark:shadow-two dark:focus:border-primary" />
+                    <input 
+                      type="text" 
+                      id="company" 
+                      name="company" 
+                      placeholder={messages.contact.form.companyPlaceholder} 
+                      className={`w-full rounded-lg border bg-transparent px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:bg-zinc-800 dark:text-body-color-dark dark:shadow-two dark:focus:border-primary ${
+                        errors.company 
+                          ? 'border-red-500 dark:border-red-500 focus:border-red-500 dark:focus:border-red-500' 
+                          : 'border-stroke dark:border-transparent'
+                      }`}
+                    />
+                    {errors.company && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.company}</p>
+                    )}
                   </div>
                   <div className="mb-8">
-                    <label htmlFor="message" className="mb-3 block text-sm font-medium text-dark dark:text-white">{messages.contact.form.message}</label>
-                    <textarea name="message" id="message" rows={6} placeholder={messages.contact.form.messagePlaceholder} className="w-full resize-none rounded-lg border border-stroke bg-transparent px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-zinc-800 dark:text-body-color-dark dark:shadow-two dark:focus:border-primary"></textarea>
+                    <label htmlFor="message" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+                      {messages.contact.form.message} <span className="text-red-500">*</span>
+                    </label>
+                    <textarea 
+                      name="message" 
+                      id="message" 
+                      rows={6} 
+                      placeholder={messages.contact.form.messagePlaceholder} 
+                      className={`w-full resize-none rounded-lg border bg-transparent px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:bg-zinc-800 dark:text-body-color-dark dark:shadow-two dark:focus:border-primary ${
+                        errors.message 
+                          ? 'border-red-500 dark:border-red-500 focus:border-red-500 dark:focus:border-red-500' 
+                          : 'border-stroke dark:border-transparent'
+                      }`}
+                    ></textarea>
+                    {errors.message && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.message}</p>
+                    )}
                   </div>
                   <div className="flex justify-start">
                     <button 
@@ -246,14 +402,26 @@ const Contact = () => {
 
                   {/* Messages de feedback */}
                   {submitStatus === 'success' && (
-                    <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-                      <p className="text-green-800 text-sm">Message envoyé avec succès ! Nous vous recontacterons bientôt.</p>
+                    <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start space-x-3">
+                      <svg className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <div>
+                        <p className="text-green-800 text-sm font-medium">Message envoyé avec succès !</p>
+                        <p className="text-green-700 text-xs mt-1">Nous vous recontacterons dans les plus brefs délais.</p>
+                      </div>
                     </div>
                   )}
                   
                   {submitStatus === 'error' && (
-                    <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                      <p className="text-red-800 text-sm">Erreur lors de l'envoi. Veuillez réessayer.</p>
+                    <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start space-x-3">
+                      <svg className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <div>
+                        <p className="text-red-800 text-sm font-medium">Erreur lors de l'envoi</p>
+                        <p className="text-red-700 text-xs mt-1">Veuillez vérifier vos informations et réessayer.</p>
+                      </div>
                     </div>
                   )}
                 </form>
