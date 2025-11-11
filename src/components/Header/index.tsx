@@ -119,7 +119,7 @@ const Header = () => {
                       <Link
                         href={menuItem.path}
                         onClick={() => setNavbarOpen(false)}
-                        className={`desktop-nav-link flex py-4 px-2 text-base font-medium lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 lg:font-normal transition-colors duration-150 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 lg:hover:bg-transparent dark:lg:hover:bg-transparent ${
+                        className={`desktop-nav-link flex py-4 px-2 text-base font-medium lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 lg:text-lg lg:font-medium transition-colors duration-150 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 lg:hover:bg-transparent dark:lg:hover:bg-transparent ${
                           pathname === menuItem.path
                             ? "text-primary dark:text-white bg-gray-50 dark:bg-gray-800 lg:bg-transparent dark:lg:bg-transparent"
                             : "text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
@@ -133,7 +133,7 @@ const Header = () => {
                           <Link
                             href={menuItem.path}
                             onClick={() => handleSubmenu(index)}
-                            className={`desktop-nav-link flex cursor-pointer items-center justify-between py-4 px-2 text-base font-medium group-hover:text-primary lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 lg:font-normal transition-colors duration-150 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 lg:hover:bg-transparent dark:lg:hover:bg-transparent ${
+                            className={`desktop-nav-link flex cursor-pointer items-center justify-between py-4 px-2 text-base font-medium group-hover:text-primary lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 lg:text-lg lg:font-medium transition-colors duration-150 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 lg:hover:bg-transparent dark:lg:hover:bg-transparent ${
                               pathname === menuItem.path
                                 ? "text-primary dark:text-white bg-gray-50 dark:bg-gray-800 lg:bg-transparent dark:lg:bg-transparent"
                                 : "text-dark dark:text-white/70 dark:group-hover:text-white"
@@ -154,7 +154,7 @@ const Header = () => {
                         ) : (
                           <p
                             onClick={() => handleSubmenu(index)}
-                            className="desktop-nav-link flex cursor-pointer items-center justify-between py-4 px-2 text-base font-medium text-dark group-hover:text-primary dark:text-white/70 dark:group-hover:text-white lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 lg:font-normal transition-colors duration-150 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 lg:hover:bg-transparent dark:lg:hover:bg-transparent"
+                            className="desktop-nav-link flex cursor-pointer items-center justify-between py-4 px-2 text-base font-medium text-dark group-hover:text-primary dark:text-white/70 dark:group-hover:text-white lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 lg:text-lg lg:font-medium transition-colors duration-150 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 lg:hover:bg-transparent dark:lg:hover:bg-transparent"
                           >
                             {messages.menu[menuItem.id as keyof typeof messages.menu]}
                             <span className="pl-3">
