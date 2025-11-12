@@ -7,6 +7,7 @@ import "../styles/index.css";
 import { Providers } from "./providers";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { generateOrganizationSchema, generateWebSiteSchema } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </main>
               <Footer />
               <ScrollToTop />
+              <Analytics />
             </LanguageProvider>
           </Providers>
         </ErrorBoundary>
