@@ -1,4 +1,4 @@
-# Startup NextJS
+# Unleash Lab
 
 Template perso basé sur Next.js 15 avec TypeScript et Tailwind.
 
