@@ -53,7 +53,13 @@ const BlogDetailsClient = ({ id }: { id: number }) => {
       )}
       <div className="mb-16 relative w-full overflow-hidden rounded-2xl shadow-xl">
         <div className="relative aspect-video w-full">
-          <Image src={blog.image} alt={title} fill className="object-cover" />
+          <Image 
+            src={blog.image} 
+            alt={title} 
+            fill 
+            className="object-cover" 
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+          />
           <div className="absolute inset-0 bg-[#48937E]/50 mix-blend-multiply" />
         </div>
       </div>

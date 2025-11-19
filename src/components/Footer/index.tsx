@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import blogData from "@/components/Blog/blogData";
@@ -37,12 +36,10 @@ const Footer = () => {
             <div className="w-full px-4 md:w-1/2 lg:w-5/12">
               <div className="mb-12 max-w-[400px] lg:mb-16">
                 <Link href="/" className="mb-8 inline-block">
-                  <Image
+                  <img
                     src="/images/logo/logo-no-background.svg"
                     alt="Unleash Lab logo"
-                    width={400}
-                    height={100}
-                    className="dark:brightness-0 dark:invert"
+                    className="h-[100px] w-[400px] object-contain dark:brightness-0 dark:invert"
                   />
                 </Link>
                 <p className="mb-6 text-base leading-relaxed text-body-color dark:text-gray-300">

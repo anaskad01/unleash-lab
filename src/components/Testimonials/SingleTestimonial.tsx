@@ -26,7 +26,12 @@ const SingleTestimonial = ({ testimonial }: { testimonial: Testimonial }) => {
         </div>
         <div className="flex items-center mt-auto">
           <div className="relative mr-4 h-[50px] w-[50px] overflow-hidden rounded-full">
-            <Image src={image} alt={name} fill />
+            <Image 
+              src={image} 
+              alt={name} 
+              fill 
+              sizes="(max-width: 768px) 60px, 80px"
+            />
           </div>
           <div className="w-full">
             <h3 className="text-dark mb-1 text-lg font-semibold lg:text-base xl:text-lg dark:text-white">

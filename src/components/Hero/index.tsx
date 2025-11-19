@@ -29,15 +29,20 @@ const NeuralNetwork = () => {
     [2, 6],
   ];
 
+  // Fonction pour valider et nettoyer les coordonnées
+  const safeCoord = (value: number) => {
+    return isNaN(value) || !isFinite(value) ? 0 : Math.round(value);
+  };
+
   return (
     <svg viewBox="0 0 400 300" className="w-[90%] max-w-[420px] h-auto">
       {links.map(([a, b], i) => (
         <motion.line
           key={i}
-          x1={nodes[a].x}
-          y1={nodes[a].y}
-          x2={nodes[b].x}
-          y2={nodes[b].y}
+          x1={safeCoord(nodes[a]?.x || 0)}
+          y1={safeCoord(nodes[a]?.y || 0)}
+          x2={safeCoord(nodes[b]?.x || 0)}
+          y2={safeCoord(nodes[b]?.y || 0)}
           stroke="#48937E"
           strokeWidth="1.5"
           initial={{ opacity: 0.3 }}
@@ -51,28 +56,39 @@ const NeuralNetwork = () => {
         />
       ))}
 
-      {nodes.map((n, i) => (
-        <motion.circle
-          key={i}
-          cx={n.x}
-          cy={n.y}
-          r="6"
-          fill="#48937E"
-          filter="url(#glow)"
-          animate={{
-            r: [6, 9, 6],
-            opacity: [0.6, 1, 0.6],
-            cx: [n.x, n.x + (Math.random() * 8 - 4), n.x],
-            cy: [n.y, n.y + (Math.random() * 8 - 4), n.y],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            repeatType: "mirror",
-            ease: "easeInOut",
-          }}
-        />
-      ))}
+      {nodes.map((n, i) => {
+        if (!n || typeof n.x !== 'number' || typeof n.y !== 'number') return null;
+        
+        const safeX = safeCoord(n.x);
+        const safeY = safeCoord(n.y);
+        
+        return (
+          <motion.circle
+            key={`circle-${i}`}
+            cx={safeX}
+            cy={safeY}
+            r="6"
+            fill="#48937E"
+            filter="url(#glow)"
+            initial={{ 
+              cx: safeX, 
+              cy: safeY, 
+              r: 6, 
+              opacity: 0.6 
+            }}
+            animate={{
+              r: [6, 9, 6],
+              opacity: [0.6, 1, 0.6],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              repeatType: "mirror",
+              ease: "easeInOut",
+            }}
+          />
+        );
+      })}
 
       <defs>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">

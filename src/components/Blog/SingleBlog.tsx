@@ -21,7 +21,13 @@ const SingleBlog = ({ blog }: { blog: BlogWithQuote }) => {
       className="group bg-white dark:bg-zinc-800 rounded-2xl shadow-lg border border-gray-100 dark:border-zinc-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative flex h-full flex-col overflow-hidden"
     >
       <div className="relative block aspect-video w-full">
-        <Image src={image} alt={title} fill className="object-cover" />
+        <Image 
+          src={image} 
+          alt={title} 
+          fill 
+          className="object-cover" 
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
         <div className="absolute inset-0 bg-[#48937E]/70 mix-blend-multiply" />
         {tags && tags.length > 0 && (
           <span className="bg-primary absolute top-4 right-4 z-20 inline-flex items-center justify-center rounded-xl px-3 py-1.5 text-sm font-semibold text-white capitalize">

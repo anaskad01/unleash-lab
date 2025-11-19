@@ -92,6 +92,7 @@ const Header = () => {
                 height={55}
                 className="dark:hidden"
                 style={{ width: '200px', height: '55px' }}
+                sizes="200px"
               />
               <Image
                 src="/images/logo/svgviewer-output.svg"
@@ -100,6 +101,7 @@ const Header = () => {
                 height={55}
                 className="hidden dark:block"
                 style={{ width: '200px', height: '55px' }}
+                sizes="200px"
               />
             </Link>
           </div>
@@ -268,6 +270,7 @@ const Header = () => {
                 height={44}
                 className="dark:brightness-0 dark:invert"
                 style={{ width: '160px', height: '44px' }}
+                sizes="160px"
               />
             </Link>
             

@@ -30,6 +30,7 @@ const BlogDetailsPage = () => {
               alt="Pro Pulse"
               fill
               className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
             />
             <div className="absolute inset-0 bg-[#48937E]/50 mix-blend-multiply"></div>
           </div>

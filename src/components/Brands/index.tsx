@@ -1,7 +1,6 @@
 "use client";
 
 import { Brand } from "@/types/brand";
-import Image from "next/image";
 import brandsData from "./brandsData";
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -42,29 +41,6 @@ const Brands = () => {
   }, []);
 
   const currentBrands = groups[currentGroup] || [];
-  // Optimisation par logo pour un meilleur rendu
-  const getLogoConfig = (brandId: number) => {
-    switch (brandId) {
-      case 1: // Globaz
-        return "h-44 max-w-360 object-contain";
-      case 2: // Procimmo
-        return "h-44 max-w-360 object-contain";
-      case 3: // TCS
-        return "h-44 max-w-360 object-contain";
-      case 4: // UCI
-        return "h-44 max-w-360 object-contain";
-      case 5: // Roche
-        return "h-44 max-w-360 object-contain";
-      case 6: // Jaeger-LeCoultre
-        return "h-40 max-w-400 object-contain";
-      case 7: // Mirabaud
-        return "h-44 max-w-360 object-contain";
-      case 8: // UNHCR
-        return "h-44 max-w-360 object-contain";
-      default:
-        return "h-44 max-w-360 object-contain";
-    }
-  };
 
   return (
     <section className="py-16 md:py-20 lg:py-28 bg-white dark:bg-black">
@@ -90,7 +66,6 @@ const Brands = () => {
             >
               <div className="grid grid-cols-2 gap-0 md:grid-cols-4">
                 {currentBrands.map((brand) => {
-                  const logoClasses = getLogoConfig(brand.id);
                   const logoSrc = brand.image;
                   
                   return (
@@ -99,13 +74,10 @@ const Brands = () => {
                       className="group relative flex h-56 items-center justify-center border-r border-b border-gray-100 p-1 transition-all duration-300 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-zinc-700 last:border-r-0 md:last:border-r [&:nth-child(2n)]:border-r-0 md:[&:nth-child(2n)]:border-r [&:nth-child(4n)]:md:border-r-0 [&:nth-last-child(-n+4)]:border-b-0 md:[&:nth-last-child(-n+4)]:border-b [&:nth-last-child(-n+2)]:border-b-0"
                     >
                       {/* Logo Image - caché en mode sombre */}
-                      <Image 
+                      <img 
                         src={logoSrc} 
                         alt={brand.name} 
-                        width={360}
-                        height={180}
-                        className={`${logoClasses} opacity-80 transition-all duration-500 group-hover:opacity-50 group-hover:scale-105 group-hover:blur-sm dark:hidden relative z-10`}
-                        sizes="(max-width: 768px) 50vw, 25vw"
+                        className="h-44 max-w-[360px] object-contain opacity-80 transition-all duration-500 group-hover:opacity-50 group-hover:scale-105 group-hover:blur-sm dark:hidden relative z-10"
                       />
                       
                       {/* Contenu texte pour mode sombre */}
@@ -170,14 +142,12 @@ const SingleBrand = ({ brand }: { brand: Brand }) => {
   const { href, image, imageLight, name } = brand;
   return (
     <div className="flex w-1/2 items-center justify-center p-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-      <div className="group relative h-16 w-full max-w-[140px] transition-transform duration-300 hover:scale-105">
+        <div className="group relative h-16 w-full max-w-[140px] transition-transform duration-300 hover:scale-105">
         <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-white p-3 shadow-sm transition-shadow duration-300 group-hover:shadow-md dark:bg-gray-700">
-          <Image 
+          <img 
             src={image} 
             alt={name} 
-            fill
-            className="object-contain opacity-70 transition-opacity duration-300 group-hover:opacity-100 dark:opacity-60 dark:group-hover:opacity-100"
-            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 16vw"
+            className="h-full w-full object-contain opacity-70 transition-opacity duration-300 group-hover:opacity-100 dark:opacity-60 dark:group-hover:opacity-100"
           />
         </div>
       </div>
