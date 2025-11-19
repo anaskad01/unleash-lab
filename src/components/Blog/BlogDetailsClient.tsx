@@ -23,7 +23,7 @@ const BlogDetailsClient = ({ id }: { id: number }) => {
   const title = locale === "en" && (blog as any).title_en ? (blog as any).title_en : blog.title;
   const paragraphs = locale === "en" && (blog as any).content_en ? (blog as any).content_en : blog.content;
   const paragraph = locale === "en" && (blog as any).paragraph_en ? (blog as any).paragraph_en : blog.paragraph;
-  const quote = (blog as any).quote;
+  const quote = locale === "en" && (blog as any).quote_en ? (blog as any).quote_en : (blog as any).quote;
   return (
     <>
       <h1 className="mb-6 text-4xl font-bold leading-tight text-black dark:text-white sm:text-5xl text-center">{title}</h1>

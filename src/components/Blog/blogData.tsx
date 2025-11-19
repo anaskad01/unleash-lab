@@ -1,10 +1,11 @@
 import { Blog } from "@/types/blog";
-const blogData: (Blog & { quote?: string })[] = [
+const blogData: (Blog & { quote?: string; quote_en?: string })[] = [
   {
     id: 1,
     title: "Business IT Advisory",
     title_en: "Business IT Advisory",
     quote: "« Faites de la technologie un levier stratégique »",
+    quote_en: "« Make technology a strategic lever »",
     paragraph:
       "Le succès ne vient pas des outils, mais de la manière dont vous les reliez à vos processus et votre stratégie. Découvrez notre approche pour optimiser vos investissements IT...",
     paragraph_en:
@@ -33,6 +34,7 @@ const blogData: (Blog & { quote?: string })[] = [
     title: "Recrutement de Business Analysts",
     title_en: "Business Analyst Recruitment",
     quote: "« Recrutez les Business Analysts qui feront la différence »",
+    quote_en: "« Recruit the Business Analysts who will make the difference »",
     paragraph:
       "Trop d'entreprises recrutent des profils techniques sans mesurer la dimension stratégique du rôle ni l'importance des softskills. Résultat : des projets qui avancent, sans atteindre leur plein potentiel. Découvrez comment identifier les profils qui feront vraiment la différence...",
     paragraph_en:
@@ -61,6 +63,7 @@ const blogData: (Blog & { quote?: string })[] = [
     title: "Pro Pulse",
     title_en: "Pro Pulse",
     quote: "« Un accompagnement pour clarifier, décider et agir face aux situations complexes »",
+    quote_en: "« Support to clarify, decide and act in complex situations »",
     paragraph:
       "Chaque métier est exigeant. Pression sur les résultats, complexité relationnelle, enjeux multiples. Parce que chacun, à un moment ou à un autre, peut se retrouver face à des situations complexes qui demandent clarté et sérénité...",
     paragraph_en:

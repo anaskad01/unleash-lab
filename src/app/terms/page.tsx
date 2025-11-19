@@ -1,16 +1,33 @@
-"use client";
-import Breadcrumb from "@/components/Common/Breadcrumb";
-import { useLanguage } from "@/context/LanguageContext";
+import { generatePageMetadata } from "@/lib/seo";
+import { Metadata } from "next";
 
-const TermsPage = () => {
-  const { messages } = useLanguage();
+export const metadata: Metadata = generatePageMetadata({
+  title: "Conditions d'Utilisation",
+  description: "Conditions d'utilisation des services Unleash Lab. Consultez nos termes et conditions pour l'utilisation de notre site web et services de conseil.",
+  path: "/terms",
+  keywords: ["conditions utilisation", "termes service", "mentions légales", "CGU"],
+  noIndex: false
+});
 
+function TermsPage() {
   return (
     <>
-      <Breadcrumb
-        pageName={messages.footer.legal.terms || "Conditions d'utilisation"}
-        description={`Dernière mise à jour : 13/03/2025`}
-      />
+      <section className="relative z-10 overflow-hidden pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px]">
+        <div className="container">
+          <div className="-mx-4 flex flex-wrap">
+            <div className="w-full px-4">
+              <div className="mx-auto max-w-[570px] text-center">
+                <h1 className="text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[40px]">
+                  Conditions d'Utilisation
+                </h1>
+                <p className="text-base font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">
+                  Dernière mise à jour : 13/03/2025
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="bg-slate-50 dark:bg-slate-900 py-12">
         <div className="container">

@@ -1,11 +1,15 @@
-"use client";
 import SimpleAbout from "@/components/About/SimpleAbout";
-import Breadcrumb from "@/components/Common/Breadcrumb";
-import { useLanguage } from "@/context/LanguageContext";
+import { generatePageMetadata } from "@/lib/seo";
+import { Metadata } from "next";
+
+export const metadata: Metadata = generatePageMetadata({
+  title: "À Propos",
+  description: "Découvrez Unleash Lab, votre partenaire expert en Business Analysis et innovation durable. Notre équipe transforme la complexité en clarté pour libérer le potentiel de votre entreprise.",
+  path: "/about",
+  keywords: ["équipe business analysis", "expertise métier", "conseil stratégique", "innovation durable", "transformation entreprise"]
+});
 
 const AboutPage = () => {
-  const { messages } = useLanguage();
-
   return (
     <>
       <SimpleAbout />

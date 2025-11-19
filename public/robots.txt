@@ -1,17 +1,7 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
-Sitemap: https://unleash-lab.tech/sitemap.xml
-
-# Disallow admin/private areas (if any)
-Disallow: /admin/
-Disallow: /api/
-Disallow: /_next/
-Disallow: /.*
-
 # Allow important pages
-Allow: /
 Allow: /about
 Allow: /contact
 Allow: /blog
@@ -19,5 +9,15 @@ Allow: /services
 Allow: /privacy
 Allow: /terms
 
-# Crawl delay (optional)
+# Disallow admin/private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /_vercel/
+Disallow: /.*$
+
+# Sitemaps
+Sitemap: https://unleash-lab.tech/sitemap.xml
+
+# Crawl delay
 Crawl-delay: 1

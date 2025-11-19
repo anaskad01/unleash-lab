@@ -5,13 +5,15 @@ import { useLanguage } from "@/context/LanguageContext";
 
 interface BlogWithQuote extends Blog {
   quote?: string;
+  quote_en?: string;
 }
 
 const SingleBlog = ({ blog }: { blog: BlogWithQuote }) => {
   const { messages, locale } = useLanguage();
   const title = locale === "en" && (blog as any).title_en ? (blog as any).title_en : blog.title;
   const paragraph = locale === "en" && (blog as any).paragraph_en ? (blog as any).paragraph_en : blog.paragraph;
-  const { image, quote, tags } = blog;
+  const quote = locale === "en" && (blog as any).quote_en ? (blog as any).quote_en : blog.quote;
+  const { image, tags } = blog;
 
   return (
     <Link

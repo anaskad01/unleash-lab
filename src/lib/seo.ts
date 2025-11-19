@@ -208,6 +208,44 @@ export const generateBreadcrumbSchema = (items: Array<{ name: string; url?: stri
   };
 };
 
+export const generateServiceSchema = (service: {
+  name: string;
+  description: string;
+  url: string;
+  provider?: string;
+}) => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.name,
+    description: service.description,
+    url: `${SITE_CONFIG.url}${service.url}`,
+    provider: {
+      '@type': 'Organization',
+      name: service.provider || SITE_CONFIG.name,
+      url: SITE_CONFIG.url,
+    },
+    areaServed: ['CH', 'FR', 'EU'],
+    serviceType: 'Business Consulting',
+    category: 'Business Analysis',
+  };
+};
+
+export const generateFAQSchema = (faqs: Array<{ question: string; answer: string }>) => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+};
+
 export const generatePageMetadata = (
   page: {
     title: string;
@@ -215,6 +253,7 @@ export const generatePageMetadata = (
     path: string;
     keywords?: string[];
     noIndex?: boolean;
+    breadcrumbs?: Array<{ name: string; url?: string }>;
   }
 ): Metadata => {
   return {
@@ -226,10 +265,16 @@ export const generatePageMetadata = (
       description: page.description,
       url: `${SITE_CONFIG.url}${page.path}`,
       images: [SITE_CONFIG.ogImage],
+      type: 'website',
+      locale: 'fr_FR',
+      siteName: SITE_CONFIG.name,
     },
     twitter: {
+      card: 'summary_large_image',
       title: page.title,
       description: page.description,
+      images: [SITE_CONFIG.ogImage],
+      creator: '@unleashlab',
     },
     alternates: {
       canonical: `${SITE_CONFIG.url}${page.path}`,
@@ -245,6 +290,8 @@ const seoUtils = {
   generateOrganizationSchema,
   generateWebSiteSchema,
   generateBreadcrumbSchema,
+  generateServiceSchema,
+  generateFAQSchema,
   generatePageMetadata,
   SITE_CONFIG,
 };
